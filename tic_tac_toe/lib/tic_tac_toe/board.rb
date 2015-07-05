@@ -20,9 +20,9 @@ module TicTacToe
     # +positions+:: Each position that is to be marker witht the players marker.
     # Valid positions start at the upper left hand corner of the board and are
     # 1-9.
-    def mark(player, *positions)
+    def mark(player, other_player, *positions)
       if player.is_a? NonHumanPlayer
-        row, column = find_best_position(player)
+        row, column = find_best_position(player, other_player)
         @board[row][column] = player.marker
       else
         positions.each do |position|
@@ -41,11 +41,12 @@ module TicTacToe
     # the given player. If all else fails, it will return the first open space
     # it encounters.
     # +player+:: the player for which to find the best position
-    def find_best_position(player)
-      find_winning_position(player) ||
-        find_single_same_marker(player) ||
-        find_same_marker(player) ||
-        find_any_space
+    def find_best_position(player, other_player)
+      find_winning_position(player)     ||
+      block_other_player(other_player)  ||
+      find_single_same_marker(player)   ||
+      find_same_marker(player)          ||
+      find_any_space
     end
 
     # Finds the first possible winning position for the given player. Returns
@@ -95,6 +96,31 @@ module TicTacToe
       end
       diagonals.each_with_index do |diagonal, index|
         if Board.one_in_scope(diagonal, player) && Board.two_spaces_in_scope(diagonal)
+          return [
+            index == 0 ?
+            diagonal.index(' ') : (diagonal.index(' ') - 2).abs,
+            diagonal.index(' ')]
+        end
+      end
+      false
+    end
+
+    # Returns the index values for @board where other_player is in a winning
+    # position. Returns false if the other_player is not in a winning position.
+    # +other_player+::The player who is not currently marking the board.
+    def block_other_player(other_player)
+      rows.each_with_index do |row, index|
+        if Board.space_in_scope(row) && Board.two_in_scope(row, other_player)
+          return [index, row.index(' ')]
+        end
+      end
+      columns.each_with_index do |column, index|
+        if Board.space_in_scope(column) && Board.two_in_scope(column, other_player)
+          return [column.index(' '), index]
+        end
+      end
+      diagonals.each_with_index do |diagonal, index|
+        if Board.two_in_scope(diagonal, other_player) && Board.space_in_scope(diagonal)
           return [
             index == 0 ?
             diagonal.index(' ') : (diagonal.index(' ') - 2).abs,

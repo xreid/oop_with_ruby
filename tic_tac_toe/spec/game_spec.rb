@@ -11,7 +11,7 @@ module TicTacToe
   describe '#get_players' do
     it 'creates players from console input' do
       game = Game.new
-      game.stub(:gets).and_return("x", "x", "z", "z")#{ 'x' }
+      game.stub(:gets).and_return("x", "x", "2", "z", "z")
       game.get_players
       expect(game.player_1.name).to eq 'x'
       expect(game.player_1.marker).to eq 'x'

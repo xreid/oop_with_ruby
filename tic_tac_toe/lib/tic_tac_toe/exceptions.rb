@@ -27,4 +27,11 @@ module TicTacToe
       'Name or mark cannot be blank.'
     end
   end
+  # Raised when a player attampts to make their name or marker empty or only
+  # spaces.
+  class MaxLengthError < StandardError
+    def message
+      'Marker must be 1 character.'
+    end
+  end
 end

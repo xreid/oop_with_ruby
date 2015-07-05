@@ -49,6 +49,7 @@ module TicTacToe
         print "\n\tmarker: "
         p1_marker = gets.strip
         fail EmptyStringError if p1_marker == ''
+        fail MaxLengthError if p1_marker.length > 1
       rescue StandardError => e
         puts e.message
         retry
@@ -78,7 +79,7 @@ module TicTacToe
           p2_marker = gets.strip
           fail DuplicateError if p2_marker == p1_name || p2_marker == p1_marker
           fail EmptyStringError if p2_marker.strip == ''
-
+          fail MaxLengthError if p2_marker.length > 1
         rescue StandardError => e
           puts e.message
           p2_marker = ''
@@ -101,14 +102,14 @@ module TicTacToe
 
         # Board#mark will handle the logic for a NonHumanPlayer
         if current_player.is_a? NonHumanPlayer
-          @board.mark(current_player)
+          @board.mark(current_player, other_player)
           @board.draw
           puts "\n"
         else
           print "#{current_player.name}, choose a square "
           begin
             selection = gets.strip.to_i
-            @board.mark(current_player, selection)
+            @board.mark(current_player, other_player, selection)
           rescue StandardError => e
             puts e.message
             retry
@@ -116,13 +117,16 @@ module TicTacToe
         end
         if winner
           @board.draw
-          puts "Game over. #{winner} wins!"
+          winner_name = @player_1.marker == winner ? @player_1.name : player_2.name
+          puts "Game over. #{winner_name} wins!"
           return
         end
         # swap players
         current_player, other_player = other_player, current_player
       end
-      puts winner ? "Game over. #{winner} wins!" : "Game over. It's a draw."
+      # puts winner ? "Game over. #{winner} wins!" : "Game over. It's a draw."
+      @board.draw
+      puts "Game over. It's a draw."
     end
 
     # Returns once the board is full

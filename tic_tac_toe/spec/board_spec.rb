@@ -17,37 +17,37 @@ module TicTacToe
   describe '#mark' do
     board = Board.new
     it 'marks a position with the specified marker' do
-      board.mark(drake, 1)
+      board.mark(drake, josh, 1)
       expect(board.board[0][0]).to eq 'D'
     end
     it 'does not overwrite existing marks' do
-      expect { board.mark(drake, 1) }.to raise_error(OverwriteError)
+      expect { board.mark(drake, josh, 1) }.to raise_error(OverwriteError)
     end
   end
 
   describe 'find_winning_position_position' do
     it 'finds the winning position in a row' do
       board = Board.new
-      board.mark(drake, 1, 2)
+      board.mark(drake, josh, 1, 2)
       expect(board.find_winning_position(drake)).to eq [0, 2]
       board = Board.new
-      board.mark(drake, 8, 9)
+      board.mark(drake, josh, 8, 9)
       expect(board.find_winning_position(drake)).to eq [2, 0]
     end
     it 'finds the winning position in a column' do
       board = Board.new
-      board.mark(drake, 1, 4)
+      board.mark(drake, josh, 1, 4)
       expect(board.find_winning_position(drake)).to eq [2, 0]
       board = Board.new
-      board.mark(drake, 2, 8)
+      board.mark(drake, josh, 2, 8)
       expect(board.find_winning_position(drake)).to eq [1, 1]
     end
     it 'finds the winning position in a diagonal' do
       board = Board.new
-      board.mark(drake, 3, 5)
+      board.mark(drake, josh, 3, 5)
       expect(board.find_winning_position(drake)).to eq [2, 0]
       board = Board.new
-      board.mark(drake, 1, 5)
+      board.mark(drake, josh, 1, 5)
       expect(board.find_winning_position(drake)).to eq [2, 2]
     end
     context 'when there is no winning position' do
@@ -61,17 +61,17 @@ module TicTacToe
   describe '#find_single_same_marker' do
     it 'returns the first empty position next to an equal marker' do
       board = Board.new
-      board.mark(drake, 1)
+      board.mark(drake, josh, 1)
       expect(board.find_single_same_marker(drake)).to eq [0, 1]
-      board.mark(drake, 2)
+      board.mark(drake, josh, 2)
       expect(board.find_single_same_marker(drake)).to eq [1, 0]
-      board.mark(drake, 4)
+      board.mark(drake, josh, 4)
       expect(board.find_single_same_marker(drake)).to eq [1, 1]
     end
     context "when no single marker == the player's marker" do
       it 'returns false' do
         board = Board.new
-        board.mark(drake, 1, 2, 3, 4, 5, 7, 9)
+        board.mark(drake, josh, 1, 2, 3, 4, 5, 7, 9)
         expect(board.find_single_same_marker(drake)).to be_falsey
       end
     end
@@ -80,8 +80,8 @@ module TicTacToe
   describe '#find_same_marker' do
     it "returns the first empty space next to a marker == player's marker" do
       board = Board.new
-      board.mark(drake, 1)
-      board.mark(josh, 2)
+      board.mark(drake, josh, 1)
+      board.mark(josh, drake, 2)
       expect(board.find_same_marker(drake)).to eq [0, 2]
     end
   end
