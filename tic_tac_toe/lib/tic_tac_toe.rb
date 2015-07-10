@@ -7,8 +7,8 @@ require_relative 'tic_tac_toe/exceptions.rb'
 
 module TicTacToe
   # comment out to run tests
-  game = Game.new
-  game.get_players
-  Game.instructions
-  game.play
+  # game = Game.new
+  # game.get_players
+  # Game.instructions
+  # game.play
 end

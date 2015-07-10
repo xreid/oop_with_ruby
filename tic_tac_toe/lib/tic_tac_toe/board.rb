@@ -10,8 +10,9 @@ module TicTacToe
     # if no parameter is given each position is filled with a single space(' ').
     # +marker+:: the marker with which to fill the board. If no value is given,
     # the marker defaults to ' '.
-    def initialize(marker = ' ')
-      @board = Array.new(3) { Array.new(3) { marker } }
+    def initialize(marker = ' ', board = nil)
+      @board = board unless board.nil?
+      @board ||= Array.new(3) { Array.new(3) { marker } }
     end
 
     # Marks specified positions on the board with the specified player's marker.
@@ -32,6 +33,11 @@ module TicTacToe
         end
       end
     end
+
+    # def minimax(player)
+    #   board = Board.new(' ', self.board)
+    #   return board.sxore
+    # end
 
     # Finds the best position for a player to mark. Does not take into account
     # the other players possibility of winning. Will return a winning position
@@ -153,6 +159,19 @@ module TicTacToe
         end
       end
       false
+    end
+
+    def winner
+      rows.each do |row|
+        return row[0] if row.all? { |element| element == row[0] && element != ' ' }
+      end
+      columns.each do |column|
+        return column[0] if column.all? { |element| element == column[0] && element != ' ' }
+      end
+      diagonals.each do |diagonal|
+        return diagonal[0] if diagonal.all? { |element| element == diagonal[0] && element != ' ' }
+      end
+      nil
     end
 
     # Returns the index values of the first available (e.g.' ') position in a

@@ -17,6 +17,10 @@ module TicTacToe
       puts 'Two players choose a name and marker (x, o, q, etc.) and start playing.'
     end
 
+    def winner
+      @board.winner
+    end
+
     # Asks the user to input 1 for single player or 2 for two player. Anything
     # <= 1 is single player and eveything else is two player.
     def mode
@@ -115,16 +119,15 @@ module TicTacToe
             retry
           end
         end
-        if winner
+        if @board.winner
           @board.draw
-          winner_name = @player_1.marker == winner ? @player_1.name : player_2.name
+          winner_name = @player_1.marker == @board.winner ? @player_1.name : player_2.name
           puts "Game over. #{winner_name} wins!"
           return
         end
         # swap players
         current_player, other_player = other_player, current_player
       end
-      # puts winner ? "Game over. #{winner} wins!" : "Game over. It's a draw."
       @board.draw
       puts "Game over. It's a draw."
     end
@@ -136,17 +139,17 @@ module TicTacToe
     end
 
     # Returns the marker of the winning player
-    def winner
-      @board.rows.each do |row|
-        return row[0] if row.all? { |element| element == row[0] && element != ' ' }
-      end
-      @board.columns.each do |column|
-        return column[0] if column.all? { |element| element == column[0] && element != ' ' }
-      end
-      @board.diagonals.each do |diagonal|
-        return diagonal[0] if diagonal.all? { |element| element == diagonal[0] && element != ' ' }
-      end
-      nil
-    end
+    # def winner
+    #   @board.rows.each do |row|
+    #     return row[0] if row.all? { |element| element == row[0] && element != ' ' }
+    #   end
+    #   @board.columns.each do |column|
+    #     return column[0] if column.all? { |element| element == column[0] && element != ' ' }
+    #   end
+    #   @board.diagonals.each do |diagonal|
+    #     return diagonal[0] if diagonal.all? { |element| element == diagonal[0] && element != ' ' }
+    #   end
+    #   nil
+    # end
   end
 end

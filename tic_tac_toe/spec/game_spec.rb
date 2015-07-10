@@ -1,3 +1,4 @@
+
 module TicTacToe
   describe '#welcome' do
     it 'outputs a welcome message to the console' do
@@ -38,7 +39,7 @@ module TicTacToe
     end
   end
 
-  describe 'winner' do
+  describe '#winner' do
     it 'returns the marker of the winning player if there is one' do
       expect(Game.new('x').winner).to eq 'x'
     end

@@ -12,6 +12,10 @@ module TicTacToe
       expect(game_board[1].size).to eq 3
       expect(game_board[2].size).to eq 3
     end
+    it "creates a board equal to the given board" do
+      board = Board.new(' ', [%w(a b c), %w(d e f), %w(g h i)]).board
+      expect(board).to eq [%w(a b c), %w(d e f), %w(g h i)]
+    end
   end
 
   describe '#mark' do
