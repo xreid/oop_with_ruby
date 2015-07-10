@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'mastermind'
+module Mastermind
+game = Game.new
+game.play
+while game.play_again do
+  game = Game.new
+  game.play
+end
+end
