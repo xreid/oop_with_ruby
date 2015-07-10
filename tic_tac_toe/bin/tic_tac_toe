@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'tic_tac_toe'
+module TicTacToe
+  game = Game.new
+  game.get_players
+  Game.instructions
+  game.play
+end
